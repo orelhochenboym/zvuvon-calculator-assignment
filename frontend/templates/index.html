@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./static/images/favicon.ico" type="image/x-icon">
+    <title>Zvuvon Calculator</title>
+
+    <script src="{{ url_for('static',filename='js/script.js') }}" defer></script>
+
+</head>
+
+<body>
+    <form id="form" action="{{ url_for('calculate') }}" method="get">
+        <table>
+            <tr>
+                <th colspan="3" class="table-heading">Initial Parameters
+                    <a href="#" alt="Parameters accept only digits 0-9 and '.' '-' keys" class="tooltip"><img
+                            class="question-mark-svg" src="static/images/question-mark-svgrepo-com.svg"
+                            alt="Hover Me!"></a>
+                </th>
+            </tr>
+            <tr>
+                <th class="table-heading">Starting Zvuvon Speed in m/s</th>
+                <th class="table-heading">Starting Zvuvon Angle Infront of Horizon in Degrees</th>
+                <th class="table-heading">Starting Zvovon Height Above Ground in Meters</th>
+            </tr>
+            <tr>
+                <td class="table-cell"><input name="initialspeed" class="input" type="text"
+                        placeholder="Type speed here..."
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');"
+                        required>
+                </td>
+                <td class="table-cell" id="input-container">
+                    <input type="range" name="sliderInput" id="sliderInput" min="-90" max="90" value="0" step="1"
+                        oninput="coordinateFromRangeToInput();">
+
+                    <input name="initialangle" id="initialangle" class="input" type="text"
+                        placeholder="Type angle here..." oninput="this.value = this.value.replace(/[^0-9.-]/g,
+                        '').replace(/(\..*?)\..*/g, '$1').replace(/^-0[^.]/, '-0').replace(/^0[^.]/, '0');
+                        coordinateFromInputToRange();" required>
+                </td>
+                <td class="table-cell"><input name="initialheight" class="input" type="text"
+                        placeholder="Type height here..."
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');"
+                        required>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="3" class="table-heading">Results</th>
+            </tr>
+            <tr>
+                <th class="table-heading">Zvovon Location On Impact in Meters From Starting Location</th>
+                <th class="table-heading">Zvovon Speed On Impact in m/s</th>
+                <th class="table-heading">Zvovon Angle On Impact in Degrees</th>
+            </tr>
+            <tr>
+                <td class="table-cell results-container"><input id="finallocation" class="input" type="text"
+                        value="{{data.hit_position}}" readonly>
+                </td>
+                <td class="table-cell results-container"><input id="finalspeed" class="input" type="text"
+                        value="{{data.hit_velocity}}" readonly></td>
+                <td class="table-cell results-container"><input id="finalangle" class="input" type="text"
+                        value="{{data.hit_angle}}" readonly></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td align="center">
+                    <button id="submit" class="button" type="submit">Calculate</button>
+                    <button class=" button" type="reset">Clear</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
