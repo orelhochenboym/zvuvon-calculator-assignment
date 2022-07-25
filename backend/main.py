@@ -10,7 +10,12 @@ PORT = 3200
 
 @app.route("/")
 def home():
-    data = {'hit_position': 0.0, 'hit_velocity': 0.0, 'hit_angle': 0.0}
+    data = {
+        'hit_position': 0.0,
+        'hit_velocity': 0.0,
+        'hit_angle': 0.0
+    }
+
     return render_template('index.html', data=data)
 
 
@@ -25,6 +30,7 @@ def calculate():
 
         data = calculate_info(
             starting_velocity=response['initialspeed'], starting_angle=response['initialangle'], starting_height=response['initialheight'])
+
         return render_template('index.html', data=data)
 
 
